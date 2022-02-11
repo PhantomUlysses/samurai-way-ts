@@ -8,7 +8,7 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import {BrowserRouter, Route} from "react-router-dom";
-import {ActionsTypes, RootStateType, StoreType} from "./redux/state";
+import {ActionsTypes, RootStateType, StoreType} from "./redux/store";
 
 type AppPropsType = {
     store: StoreType;
@@ -30,7 +30,11 @@ const App: React.FC<AppPropsType> = (props) => {
                                dispatch={props.dispatch.bind(props.store)}
                            /> }/>
                     <Route path='/dialogs'
-                           render={ () => <Dialogs dialogs={props.state.messagesPage.dialogs} messages={props.state.messagesPage.messages}/> }/>
+                           render={ () => <Dialogs dispatch={props.dispatch.bind(props.store)}
+                                                   dialogs={props.state.dialogsPage.dialogs}
+                                                   messages={props.state.dialogsPage.messages}
+                                                   newMessageBody={props.state.dialogsPage.newMessageBody}
+                           /> }/>
                     <Route path='/news' render={ () => <News /> }/>
                     <Route path='/music' render={ () => <Music /> }/>
                     <Route path='/settings' render={ () => <Settings /> }/>

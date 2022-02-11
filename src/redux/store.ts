@@ -1,8 +1,9 @@
-const ADD_POST = "ADD-POST";
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+import profileReducer, {addPostAC, updateNewPostTextAC} from "./profile-reducer";
+import dialogsReducer, {sendMessageAC, updateNewMessageBodyAC} from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
 
 export type PostsType = Array<PostsItemType>;
-type PostsItemType = {
+export type PostsItemType = {
     id: number;
     message: string;
     likesCount: number;
@@ -24,17 +25,18 @@ export type ProfilePageType = {
     posts: PostsType;
     newPostText: string;
 }
-type MessagesPageType = {
+export type DialogsPageType = {
     dialogs: DialogsType;
     messages: MessagesType;
+    newMessageBody: string;
 }
-type SidebarType = {
+export type SidebarType = {
 
 }
 
 export type RootStateType = {
     profilePage: ProfilePageType;
-    messagesPage: MessagesPageType;
+    dialogsPage: DialogsPageType;
     sidebar: SidebarType
 }
 
@@ -48,7 +50,10 @@ export type StoreType = {
     dispatch: (action: ActionsTypes) => void;
 }
 
-export type ActionsTypes = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC>;
+export type ActionsTypes = ReturnType<typeof addPostAC> |
+    ReturnType<typeof updateNewPostTextAC> |
+    ReturnType<typeof updateNewMessageBodyAC> |
+    ReturnType<typeof  sendMessageAC>;
 
 const store: StoreType = {
     _state: {
@@ -61,14 +66,15 @@ const store: StoreType = {
         ],
         newPostText: ''
     },
-    messagesPage: {
+    dialogsPage: {
         dialogs: [
             {id: 1, name: 'Dimych'},
             {id: 2, name: 'Andrew'},
             {id: 3, name: 'Sveta'},
             {id: 4, name: 'Nikita'},
             {id: 5, name: 'Viktor'},
-            {id: 6, name: 'Valera'}
+            {id: 6, name: 'Valera'},
+            {id: 7, name: 'Vitalik'}
         ],
         messages: [
             {id: 1, message: 'Hi'},
@@ -77,7 +83,8 @@ const store: StoreType = {
             {id: 4, message: 'Yo'},
             {id: 5, message: 'Yo'},
             {id: 6, message: 'Yo'}
-        ]
+        ],
+        newMessageBody: ''
     },
     sidebar: {}
 
@@ -90,53 +97,20 @@ const store: StoreType = {
         return this._state;
     },
     subscribe(callback) {
-        this._onChange = callback; // observer // publisher-subscriber
+        this._onChange = callback; // observer // publisher-subscriber pattern
     },
-    //
-    // addPost(postText: string) {
-    //     const newPost: PostsItemType = {
-    //         id: new Date().getTime(),
-    //         message: postText,
-    //         likesCount: 0
-    //     };
-    //     this._state.profilePage.posts.push(newPost);
-    //     this._state.profilePage.newPostText = '';
-    //     this._onChange(this._state);
-    // },
-    // updateNewPostText(newText: string) {
-    //     this._state.profilePage.newPostText = newText;
-    //     this._onChange(this._state);
-    // },
-
     dispatch(action) {
-        if (action.type === ADD_POST) {
-            const newPost: PostsItemType = {
-                id: new Date().getTime(),
-                message: action.postText,
-                likesCount: 0
-            };
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.newPostText = '';
-            this._onChange(this._state);
-        } else if (action.type === UPDATE_NEW_POST_TEXT) {
-            this._state.profilePage.newPostText = action.newText;
-            this._onChange(this._state);
-        }
+
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action);
+
+        this._onChange(this._state);
     }
 }
 
-export const addPostAC = (postText: string) => {
-    return {
-        type: ADD_POST,
-        postText: postText
-    } as const;
-}
 
-export const updateNewPostTextAC = (newText: string) => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newText: newText
-    } as const;
-}
+
+
 
 export default store;
