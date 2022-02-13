@@ -7,7 +7,8 @@ import {addPostAC, updateNewPostTextAC} from "../../../redux/profile-reducer";
 type MyPostsPropsType = {
     posts: PostsType;
     newPostText: string;
-    dispatch: (action: ActionsTypes) => void;
+    updateNewPostText: (e: string) => void;
+    addPost: () => void;
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
@@ -15,16 +16,14 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     let postsElements = props.posts
         .map( p => <Post key={p.id} message={p.message} likesCounter={p.likesCount} /> );
 
-    let addPost = () => {
-        // props.addPostCallback(props.newPostText);
-        let action = addPostAC(props.newPostText);
-        props.dispatch(action);
+    let onAddPost = () => {
+        props.addPost();
     }
 
     let onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        // props.updateNewPostText(e.currentTarget.value);
-        let action = updateNewPostTextAC(e.currentTarget.value)
-        props.dispatch(action);
+        props.updateNewPostText(e.currentTarget.value);
+        // let action = updateNewPostTextAC(e.currentTarget.value)
+        // props.dispatch(action);
     }
 
     return (
@@ -35,7 +34,7 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
                     <textarea onChange={onPostChange} value={props.newPostText} />
                 </div>
                 <div>
-                    <button onClick={ addPost }>Add post</button>
+                    <button onClick={ onAddPost }>Add post</button>
                 </div>
             </div>
             <div className={s.posts}>
