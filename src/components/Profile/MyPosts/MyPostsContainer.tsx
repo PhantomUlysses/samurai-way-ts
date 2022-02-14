@@ -1,34 +1,32 @@
 import React, {ChangeEvent} from 'react';
-import s from './MyPosts.module.css';
 import Post from './Post/Post';
-import {ActionsTypes, PostsType} from "../../../redux/store";
+import {ActionsTypes, PostsType, StoreType} from "../../../redux/store";
 import {addPostAC, updateNewPostTextAC} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
 
 type MyPostsPropsType = {
-    posts: PostsType;
-    newPostText: string;
-    dispatch: (action: ActionsTypes) => void;
+    store: StoreType;
 }
 
 const MyPostsContainer: React.FC<MyPostsPropsType> = (props) => {
+    let state = props.store.getState();
 
-    let postsElements = props.posts
+    let postsElements = state.profilePage.posts
         .map( p => <Post key={p.id} message={p.message} likesCounter={p.likesCount} /> );
 
     let addPost = () => {
         // props.addPostCallback(props.newPostText);
-        let action = addPostAC(props.newPostText);
-        props.dispatch(action);
+        let action = addPostAC(state.profilePage.newPostText);
+        props.store.dispatch(action);
     }
 
     let onPostChange = (text: string) => {
         let action = updateNewPostTextAC(text)
-        props.dispatch(action);
+        props.store.dispatch(action);
     }
 
-    return (<MyPosts posts={props.posts}
-                     newPostText={props.newPostText}
+    return (<MyPosts posts={state.profilePage.posts}
+                     newPostText={state.profilePage.newPostText}
                      updateNewPostText={onPostChange}
                      addPost={addPost}
     />);
