@@ -12,9 +12,9 @@ import {DialogsPropsType} from "./DialogsContainer";
 
 const Dialogs = (props: DialogsPropsType) => {
     let dialogsElements = props.dialogsPage.dialogs
-        .map( d => <DialogItem id={d.id} name={d.name} /> );
+        .map( d => <DialogItem id={d.id} key={d.id} name={d.name} /> );
     let messageElements = props.dialogsPage.messages
-        .map( m => <Message message={m.message} /> );
+        .map( m => <Message key={m.id} message={m.message} /> );
     let newMessageBody = props.dialogsPage.newMessageBody;
 
     // let textAreaInput = React.createRef<HTMLTextAreaElement>();
