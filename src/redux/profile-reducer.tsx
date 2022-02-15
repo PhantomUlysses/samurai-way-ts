@@ -1,9 +1,9 @@
-import {ActionsTypes, PostsItemType, ProfilePageType} from "./store";
+import {ActionsTypes, ProfilePageType} from "./store";
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 
-export type PostType = {
+export type PostsItemType = {
     id: number;
     message: string;
     likesCount: number;
@@ -15,7 +15,7 @@ let initialState = {
             {id: 2, message: 'It\'s my first post', likesCount: 11},
             {id: 3, message: 'Blabla', likesCount: 11},
             {id: 4, message: 'Dada', likesCount: 11}
-        ] as Array<PostType>,
+        ] as Array<PostsItemType>,
         newPostText: ''
     };
 
@@ -23,18 +23,23 @@ type InitialStateType = typeof initialState;
 
 const profileReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case ADD_POST:
+        case ADD_POST: {
             const newPost: PostsItemType = {
                 id: new Date().getTime(),
                 message: action.postText,
                 likesCount: 0
             };
-            state.posts.push(newPost);
-            state.newPostText = '';
-            return state;
-        case UPDATE_NEW_POST_TEXT:
-            state.newPostText = action.newText;
-            return state;
+            let stateCopy = {...state};
+            stateCopy.posts = [...state.posts];
+            stateCopy.posts.push(newPost);
+            stateCopy.newPostText = '';
+            return stateCopy;
+        }
+        case UPDATE_NEW_POST_TEXT: {
+            let stateCopy = {...state};
+            stateCopy.newPostText = action.newText;
+            return stateCopy;
+        }
         default:
             return state;
     }
