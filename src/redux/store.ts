@@ -53,7 +53,7 @@ export type StoreType = {
 export type ActionsTypes = ReturnType<typeof addPostAC> |
     ReturnType<typeof updateNewPostTextAC> |
     ReturnType<typeof updateNewMessageBodyAC> |
-    ReturnType<typeof  sendMessageAC>;
+    ReturnType<typeof sendMessageAC>;
 
 // const store: StoreType = {
 //     _state: {

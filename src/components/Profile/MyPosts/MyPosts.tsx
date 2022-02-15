@@ -1,14 +1,13 @@
 import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
-import {ActionsTypes, PostsType} from "../../../redux/store";
-import {addPostAC, updateNewPostTextAC} from "../../../redux/profile-reducer";
+import {PostsType} from "../../../redux/store";
 
 type MyPostsPropsType = {
     posts: PostsType;
     newPostText: string;
     updateNewPostText: (e: string) => void;
-    addPost: () => void;
+    addPost: (newPostText: string) => void;
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
@@ -17,7 +16,7 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
         .map( p => <Post key={p.id} message={p.message} likesCounter={p.likesCount} /> );
 
     let onAddPost = () => {
-        props.addPost();
+        props.addPost(props.newPostText);
     }
 
     let onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
