@@ -1,13 +1,17 @@
-import {ActionsTypes} from "./store";
+import {UserProfileType} from "../components/Profile/ProfileContainer";
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+const SET_USER_PROFILE = 'SET_USER_PROFILE'
 
 export type PostsItemType = {
     id: number;
     message: string;
     likesCount: number;
 }
+
+type ActionsTypes = ReturnType<typeof addPostAC> | ReturnType<typeof setUserProfile>
+                   | ReturnType<typeof updateNewPostTextAC>;
 
 let initialState = {
         posts: [
@@ -16,10 +20,15 @@ let initialState = {
             {id: 3, message: 'Blabla', likesCount: 11},
             {id: 4, message: 'Dada', likesCount: 11}
         ] as Array<PostsItemType>,
-        newPostText: ''
+        newPostText: '',
+        profile: null,
     };
 
-type InitialStateType = typeof initialState;
+type InitialStateType = {
+    posts: Array<PostsItemType>;
+    newPostText: string;
+    profile: null | UserProfileType;
+};
 
 const profileReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
@@ -41,6 +50,9 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionsT
                 newPostText: action.newText
             };
         }
+        case SET_USER_PROFILE: {
+            return {...state, profile: action.profile};
+        }
         default:
             return state;
     }
@@ -48,12 +60,17 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionsT
 
 export const addPostAC = (postText: string) => ({
     type: ADD_POST,
-    postText: postText
+    postText: postText,
+} as const);
+
+export const setUserProfile = (profile: UserProfileType) => ({
+    type: SET_USER_PROFILE,
+    profile,
 } as const);
 
 export const updateNewPostTextAC = (newText: string) => ({
     type: UPDATE_NEW_POST_TEXT,
-    newText: newText
+    newText: newText,
 } as const);
 
 export default profileReducer;

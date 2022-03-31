@@ -1,4 +1,3 @@
-import profileReducer, {addPostAC, updateNewPostTextAC} from "./profile-reducer";
 import dialogsReducer, {sendMessageAC, updateNewMessageBodyAC} from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
 
@@ -30,9 +29,7 @@ export type DialogsPageType = {
     messages: MessagesType;
     newMessageBody: string;
 }
-export type SidebarType = {
-
-}
+export type SidebarType = {}
 
 export type RootStateType = {
     profilePage: ProfilePageType;
@@ -50,9 +47,7 @@ export type StoreType = {
     dispatch: (action: ActionsTypes) => void;
 }
 
-export type ActionsTypes = ReturnType<typeof addPostAC> |
-    ReturnType<typeof updateNewPostTextAC> |
-    ReturnType<typeof updateNewMessageBodyAC> |
+export type ActionsTypes = ReturnType<typeof updateNewMessageBodyAC> |
     ReturnType<typeof sendMessageAC>;
 
 // const store: StoreType = {

@@ -1,6 +1,5 @@
 import {connect} from "react-redux";
 import {AppStoreType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
 import {
     follow, setCurrentPage, setTotalUsersCount, setUsers, toggleIsFetching, unfollow,
     UserType
