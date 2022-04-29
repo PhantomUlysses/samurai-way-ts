@@ -3,16 +3,16 @@ const SET_USER_DATA = "SET_USER_DATA";
 type ActionsTypes = ReturnType<typeof setAuthUserData>;
 
 export type AuthInitialStateType = {
-    userId: number | null,
-    email: string | null,
-    login: string | null,
-    isAuth: boolean,
+    userId: number;
+    email: string;
+    login: string;
+    isAuth: boolean;
 };
 
 let initialState: AuthInitialStateType = {
-    userId: null,
-    email: null,
-    login: null,
+    userId: 0,
+    email: '',
+    login: '',
     isAuth: false,
 };
 

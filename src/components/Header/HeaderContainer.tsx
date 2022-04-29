@@ -3,9 +3,15 @@ import Header from "./Header";
 import axios from "axios";
 import {connect} from "react-redux";
 import {AuthInitialStateType, setAuthUserData} from "../../redux/auth-reducer";
+import {AppStoreType} from "../../redux/redux-store";
 
+type HeaderContainerPropsType = {
+    isAuth: boolean;
+    login: string;
+    setAuthUserData: (userId: number, email: string, login: string) => void;
+}
 
-class HeaderContainer extends React.Component<any> {
+class HeaderContainer extends React.Component<HeaderContainerPropsType> {
     componentDidMount() {
         axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
             withCredentials: true
@@ -22,7 +28,8 @@ class HeaderContainer extends React.Component<any> {
         return <Header {...this.props}/>
     }
 }
-const mapStateToProps = (state: any) => ({
+
+const mapStateToProps = (state: AppStoreType) => ({
     isAuth: state.auth.isAuth,
     login: state.auth.login,
 });

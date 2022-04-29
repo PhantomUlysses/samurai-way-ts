@@ -3,13 +3,12 @@ import s from './Header.module.css';
 import {NavLink} from "react-router-dom";
 
 type HeaderPropsType = {
-    // isAuth: boolean;
-    // login: string;
-    // setAuthUserData: (userId: number, email: string, login: string) => void;
+    isAuth: boolean;
+    login: string | null;
+    setAuthUserData: (userId: number, email: string, login: string) => void;
 }
 
-const Header = (props: any) => {
-    debugger;
+const Header = (props: HeaderPropsType) => {
     return (
         <header className={s.header}>
             <img
